@@ -142,10 +142,12 @@ var Fireworks = (function() {
         // then we know we can safely(!) explode it... yeah.
         if(!firework.usePhysics) {
 
-          if(Math.random() < 0.2) {
+          if(Math.random() < 0.3) {
             FireworkExplosions.star(firework);
-          } else if (Math.random() < 0.6) {
+          } else if (Math.random() < 0.5) {
               FireworkExplosions.circle(firework);
+          } else if (Math.random() < 0.75) {
+              FireworkExplosions.butterfly(firework);
           } else {
             FireworkExplosions.heart(firework);
           }
@@ -332,6 +334,31 @@ var Library = {
  */
 var FireworkExplosions = {
 
+  butterfly: function(firework) {
+
+    var count = 200;
+    var angle = (Math.PI * 2) / count;
+    while(count--) {
+
+      var randomVelocity = (3 + Math.random()) / 10;
+      var particleAngle = count * angle;
+      
+      var r = 6 - 1.2 * Math.sin(particleAngle) + 2 * Math.sin(3 * particleAngle) + 2 * Math.sin(5 * particleAngle) - Math.sin(7 * particleAngle) + 0.8 * Math.sin(9 * particleAngle) - 0.3 * Math.sin(11 * particleAngle) + 4.8 * Math.cos(2 * particleAngle) - 2 * Math.cos(4 * particleAngle) + 0.5 * Math.cos(8 * particleAngle);
+      
+      r *= 1.5;
+      
+      Fireworks.createParticle(
+        firework.pos,
+        null,
+        {
+          x: r * Math.cos(particleAngle) * randomVelocity,
+          y: -r * Math.sin(particleAngle) * randomVelocity
+        },
+        firework.color,
+        true);
+    }
+  },
+
   heart: function(firework) {
 
     var count = 300;
@@ -339,7 +366,6 @@ var FireworkExplosions = {
     while(count--) {
 
       var randomVelocity = (3 + Math.random()) / 10;
-      console.log(randomVelocity);
       var particleAngle = count * angle;
       
       var tx = Math.sin(particleAngle);
@@ -456,19 +482,27 @@ var FireworkExplosions = {
 
 };
 
+var sound = new Howl({
+    urls: ['song/background.mp3'],
+    loop: true
+});
+
 // Go
 window.onload = function() {
   Fireworks.initialize();
+
+  sound.play();
   
   setInterval(function(){
-      var n = 1 + Math.random() * 2;
-      for (var i = 0; i < n; ++i)
-          Fireworks.createParticle();
+    Fireworks.createParticle();
+  }, 2500);
+  
+  setInterval(function(){
+    Fireworks.createParticle();
   }, 5000);
-  
+
   setInterval(function(){
-      var n = 1 + Math.random();
-      for (var i = 0; i < n; ++i)
-          Fireworks.createParticle();
+    Fireworks.createParticle();
   }, 8000);
+
 };
