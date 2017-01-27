@@ -142,11 +142,13 @@ var Fireworks = (function() {
         // then we know we can safely(!) explode it... yeah.
         if(!firework.usePhysics) {
 
-          if(Math.random() < 0.3) {
+          if(Math.random() < 0.1) {
+              FireworkExplosions.heart(firework);
+          } else if (Math.random() < 0.4) {
             FireworkExplosions.star(firework);
-          } else if (Math.random() < 0.5) {
+          } else if (Math.random() < 0.6) {
               FireworkExplosions.circle(firework);
-          } else if (Math.random() < 0.75) {
+          } else if (Math.random() < 0.85) {
               FireworkExplosions.butterfly(firework);
           } else {
             FireworkExplosions.heart(firework);
@@ -351,7 +353,7 @@ var FireworkExplosions = {
         firework.pos,
         null,
         {
-          x: r * Math.cos(particleAngle + (Math.random() * 2 - 1) * angle * 20) * randomVelocity,
+          x: r * Math.cos(particleAngle + Math.PI * (Math.random() > 0.5 ? 1 : 0) + angle * 20 * (Math.random() > 0.5 ? 1 : 0)) * randomVelocity,
           y: -r * Math.sin(particleAngle) * randomVelocity
         },
         firework.color,
@@ -368,9 +370,9 @@ var FireworkExplosions = {
       var randomVelocity = (3 + Math.random()) / 10;
       var particleAngle = count * angle;
       
-      var tx = Math.sin(particleAngle + (Math.random() * 2 - 1) * angle * 10);
-      tx = 16 * tx * tx * tx;
-      var ty = 13 * Math.cos(particleAngle) - 5 * Math.cos(2 * particleAngle) - 2 * Math.cos(3 * particleAngle) - Math.cos(4 * particleAngle);
+      var tx = Math.sin(particleAngle);
+      tx = (15 + Math.random() * 10) * tx * tx * tx;
+      var ty = (8 + Math.random() * 8) * Math.cos(particleAngle) - 5 * Math.cos(2 * particleAngle) - 2 * Math.cos(3 * particleAngle) - Math.cos(4 * particleAngle);
 
       Fireworks.createParticle(
         firework.pos,
