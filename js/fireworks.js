@@ -142,10 +142,12 @@ var Fireworks = (function() {
         // then we know we can safely(!) explode it... yeah.
         if(!firework.usePhysics) {
 
-          if(Math.random() < 0.8) {
+          if(Math.random() < 0.2) {
             FireworkExplosions.star(firework);
+          } else if (Math.random() < 0.6) {
+              FireworkExplosions.circle(firework);
           } else {
-            FireworkExplosions.circle(firework);
+            FireworkExplosions.heart(firework);
           }
         }
       }
@@ -160,7 +162,6 @@ var Fireworks = (function() {
    * Creates a new particle / firework
    */
   function createParticle(pos, target, vel, color, usePhysics) {
-
     pos = pos || {};
     target = target || {};
     vel = vel || {};
@@ -331,6 +332,32 @@ var Library = {
  */
 var FireworkExplosions = {
 
+  heart: function(firework) {
+
+    var count = 300;
+    var angle = (Math.PI * 2) / count;
+    while(count--) {
+
+      var randomVelocity = (3 + Math.random()) / 10;
+      console.log(randomVelocity);
+      var particleAngle = count * angle;
+      
+      var tx = Math.sin(particleAngle);
+      tx = 16 * tx * tx * tx;
+      var ty = 13 * Math.cos(particleAngle) - 5 * Math.cos(2 * particleAngle) - 2 * Math.cos(3 * particleAngle) - Math.cos(4 * particleAngle);
+
+      Fireworks.createParticle(
+        firework.pos,
+        null,
+        {
+          x: tx * randomVelocity,
+          y: -ty * randomVelocity
+        },
+        firework.color,
+        true);
+    }
+  },
+  
   /**
    * Explodes in a roughly circular fashion
    */
@@ -432,4 +459,16 @@ var FireworkExplosions = {
 // Go
 window.onload = function() {
   Fireworks.initialize();
+  
+  setInterval(function(){
+      var n = 1 + Math.random() * 2;
+      for (var i = 0; i < n; ++i)
+          Fireworks.createParticle();
+  }, 5000);
+  
+  setInterval(function(){
+      var n = 1 + Math.random();
+      for (var i = 0; i < n; ++i)
+          Fireworks.createParticle();
+  }, 8000);
 };
