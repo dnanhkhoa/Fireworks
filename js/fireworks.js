@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 
+var snd1 = new Howl({
+    urls: ['song/misc1.mp3']
+});
+var snd2 = new Howl({
+    urls: ['song/misc2.wav']
+});
+ 
 var Fireworks = (function() {
 
   // declare the variables we need
@@ -63,6 +70,7 @@ var Fireworks = (function() {
    */
   function createFirework() {
     createParticle();
+    snd1.play();
   }
 
   /**
@@ -141,7 +149,9 @@ var Fireworks = (function() {
         // if the firework isn't using physics
         // then we know we can safely(!) explode it... yeah.
         if(!firework.usePhysics) {
-
+          
+          snd2.play();
+          
           if(Math.random() < 0.1) {
               FireworkExplosions.heart(firework);
           } else if (Math.random() < 0.4) {
@@ -207,7 +217,8 @@ var Fireworks = (function() {
   // declare an API
   return {
     initialize: initialize,
-    createParticle: createParticle
+    createParticle: createParticle,
+    createFirework: createFirework
   };
 
 })();
@@ -496,15 +507,15 @@ window.onload = function() {
   sound.play();
   
   setInterval(function(){
-    Fireworks.createParticle();
+    Fireworks.createFirework();
   }, 2500);
   
   setInterval(function(){
-    Fireworks.createParticle();
+    Fireworks.createFirework();
   }, 5000);
 
   setInterval(function(){
-    Fireworks.createParticle();
+    Fireworks.createFirework();
   }, 8000);
 
 };
