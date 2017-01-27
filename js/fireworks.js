@@ -351,7 +351,7 @@ var FireworkExplosions = {
         firework.pos,
         null,
         {
-          x: r * Math.cos(particleAngle) * randomVelocity,
+          x: r * Math.cos(particleAngle + (Math.random() * 2 - 1) * angle * 20) * randomVelocity,
           y: -r * Math.sin(particleAngle) * randomVelocity
         },
         firework.color,
@@ -368,7 +368,7 @@ var FireworkExplosions = {
       var randomVelocity = (3 + Math.random()) / 10;
       var particleAngle = count * angle;
       
-      var tx = Math.sin(particleAngle);
+      var tx = Math.sin(particleAngle + (Math.random() * 2 - 1) * angle * 10);
       tx = 16 * tx * tx * tx;
       var ty = 13 * Math.cos(particleAngle) - 5 * Math.cos(2 * particleAngle) - 2 * Math.cos(3 * particleAngle) - Math.cos(4 * particleAngle);
 
